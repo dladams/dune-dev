@@ -48,8 +48,8 @@ else
 
 export DUNE_INSDIR=$DUNE_INSDIR
 export DUNE_DEVDIR=$DUNE_DEVDIR
-alias dune=\$DUNE_INSDIR/lbne
-alias du=\$DUNE_INSDIR/lbne" >> $SETUPFILE
+alias dune=\$DUNE_INSDIR/dune
+alias du=\$DUNE_INSDIR/dune" >> $SETUPFILE
 
 # If absent, create a configuration file.
 FILE=$DUNE_DEVDIR/config.sh
