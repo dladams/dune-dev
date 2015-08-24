@@ -1,0 +1,21 @@
+#!/bin/sh
+
+SUBCOM=$1
+shift
+ARGS="$*"
+
+if [ -z "$SUBCOM" -o "$SUBCOM" = "-h" ]; then
+  echo Usage: dune COM
+  echo "  COM = checkout, build, show, ..."
+  echo "  For details, see \"dune help\""
+  exit 0
+fi
+
+COM=$DUNE_INSDIR/dune-$SUBCOM
+if ! test -x $COM; then
+  echo Command not found: $SUBCOM
+  exit 1
+fi
+
+$COM $ARGS
+  

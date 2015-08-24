@@ -1,0 +1,3 @@
+#larsim    # Needed for test with radiologicals in v02_06_01
+dunetpc    # The DUNE code
+https://github.com/dladams/lbtupler   # DA's ntuple builder and event display
