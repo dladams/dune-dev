@@ -30,26 +30,36 @@ fi
 
 cd $DUNE_DEVDIR/workdir
 
+NEWDEVOPTS=
+LPRODDIR=localProducts_$DUNE_PRODUCT
 if [ ! -r srcs ]; then
   NEED_NEWDEV=1
+else
+  if [ ! -r $LPRODDIR ]; then
+    NEED_NEWDEV=1
+    NEWDEVOPTS="-f"   # To allow use of existing srcs area
+  fi
 fi
 
 echo $DUNE_LINE
 echo Setting up $DUNE_PROJECT
 setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL
 
+
 if [ -n "$NEED_NEWDEV" ]; then
   echo $DUNE_LINE
   echo Creating mrb area
-  mrb newDev 
+  mrb newDev $NEWDEVOPTS
   echo MRB_BUILDIR = $MRB_BUILDDIR
 fi
 
-pwd
-source localProducts_$DUNE_PRODUCT/setup
+echo $DUNE_LINE
+cd $DUNE_DEVDIR/workdir
+echo Setting up local product
+source $LPRODDIR/setup
 
 if ! cd srcs; then
-  echo Unable to find woDUNEr/srcs
+  echo Unable to find workdir/srcs
   echo PWD is `pwd`
   exit 1
 fi
@@ -114,10 +124,9 @@ echo $DUNE_LINE
 # See https://cdcvs.fnal.gov/redmine/projects/lbnecode/wiki/_Tutorial_#When-a-new-LArSoft-release-is-available-and-you-want-to-develop-against-the-new-LArSoft-release.
 if [ -n "$MRB_TOP" ]; then
   cd $MRB_TOP
-  DIR=localProducts_$DUNE_PRODUCT
-  if [ -r $DIR ]; then
-    if [ -n "$DUNE_VERBOSE" ]; then echo Removing $DIR; fi
-    rm -rf $DIR
+  if [ -r $LPRODDIR ]; then
+    if [ -n "$DUNE_VERBOSE" ]; then echo Removing $LPRODDIR; fi
+    rm -rf $LPRODDIR
   fi
   if [ -n "$DUNE_VERBOSE" ]; then echo Running mrb newDev; fi
   mrb newDev -p

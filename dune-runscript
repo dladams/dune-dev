@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# dune-runscript
+# Create setup file for running.
+
+RUNSCRIPT=$DUNE_DEVDIR/run.sh
+if [ ! -r $RUNSCRIPT ]; then
+  echo "source $DUNE_INSDIR/duneinit.sh" >>$RUNSCRIPT
+  for SETUP in $DUNE_DEVDIR/workdir/localProducts*/setup; do
+    echo source $SETUP >>$RUNSCRIPT
+  done
+  echo mrbslp >>$RUNSCRIPT
+  echo 'SAVEDIR=`pwd`' >>$RUNSCRIPT
+  echo 'cd $MRB_BUILDDIR' >>$RUNSCRIPT
+  echo 'mrbsetenv' >>$RUNSCRIPT
+  echo 'cd $SAVEDIR' >>$RUNSCRIPT
+  echo "PS1=\"dune-dev> \"" >>$RUNSCRIPT
+fi

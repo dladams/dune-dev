@@ -1,0 +1,2 @@
+$DUNE_INSDIR/dune runscript
+bash --rcfile $DUNE_DEVDIR/run.sh

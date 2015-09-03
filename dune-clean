@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# dune-clean
+#
+# David Adams
+# September 2015
+#
+# Build the checked-out code.
+
+# DUNE setup.
+source $DUNE_INSDIR/duneinit.sh
+
+echo $DUNE_LINE
+cd $DUNE_DEVDIR/workdir
+echo Setting up $DUNE_PROJECT
+setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL
+
+echo $DUNE_LINE
+cd $DUNE_DEVDIR/workdir
+echo Setting up local products
+source localProducts_$DUNE_PRODUCT/setup
+
+echo $DUNE_LINE
+cd $MRB_BUILDDIR
+if [ -n "$DUNE_VERBOSE" ]; then echo Running mrbsetenv; fi
+mrbsetenv
+
+echo Cleaning
+COM="mrb z"
+if [ -n "$DUNE_VERBOSE" ]; then echo Running $COM; fi
+$COM 
+echo "$COM" >> $DUNE_HISTORY
