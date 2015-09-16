@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# dune-build
+#
+# David Adams
+# July 2014
+#
+# Build the checked-out code.
+
+# DUNE setup.
+source $DUNE_INSDIR/duneinit.sh
+
+echo $DUNE_LINE
+cd $DUNE_DEVDIR/workdir
+echo Setting up $DUNE_PROJECT
+setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL
+
+echo $DUNE_LINE
+echo Setting up local product
+LPRODDIR=localProducts_$DUNE_PRODUCT
+source $LPRODDIR/setup
+
+echo $DUNE_LINE
+if [ -z "$MRB_BUILDDIR" ]; then
+  echo MRB_BUILDDIR must be defined.
+  exit 1
+fi
+cd $MRB_BUILDDIR
+echo Testing in `pwd`
+echo $DUNE_LINE
+if [ -n "$DUNE_VERBOSE" ]; then echo Running mrbsetenv; fi
+COM=mrbsetenv
+$COM 
+echo "$COM" >> $DUNE_HISTORY
+
+echo $DUNE_LINE
+COM="mrb test"
+if [ -n "$DUNE_VERBOSE" ]; then echo Running $COM; fi
+$COM 
+echo "$COM" >> $DUNE_HISTORY
+
+if [ -n "$DUNE_VERBOSE" ]; then echo exiting dune-test; fi
