@@ -34,7 +34,10 @@ $COM
 echo "$COM" >> $DUNE_HISTORY
 
 echo $DUNE_LINE
-COM="mrb i -j4"
+COM="mrb i"
+if [ -n "$DUNE_MAXPROC" -a $DUNE_MAXPROC -gt 1 ]; then
+  COM="$COM -j$DUNE_MAXPROC"
+fi
 if [ -n "$DUNE_VERBOSE" ]; then echo Running $COM; fi
 $COM 
 echo "$COM" >> $DUNE_HISTORY
