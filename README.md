@@ -1,10 +1,9 @@
-# lbne-dev
+# dune-dev
 
 David Adams  
 August 2015  
 
 Package to help with the checkout, build and running of DUNE SW.
-For now, only larsoft is supported.
 
 Use "dune help" to see available commands.
 
