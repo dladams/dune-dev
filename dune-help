@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cat $DUNE_INSDIR/README.md

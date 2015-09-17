@@ -1,3 +1,11 @@
-#larsim    # Needed for test with radiologicals in v02_06_01
-dunetpc    # The DUNE code
-https://github.com/dladams/lbtupler   # DA's ntuple builder and event display
+# packages .txt
+#
+# Example package list file for use with dune-dev.
+#
+# This is the list of git repositories to checkout to the development area.
+# Uncomment at least one of the below or add your own.
+
+#larsim
+#dunetpc
+#ssh://git@github.com/dladams/art_extensions
+#ssh://git@github.com/dladams/dune_extensions

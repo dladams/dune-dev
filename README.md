@@ -1,7 +1,7 @@
 # dune-dev
 
 David Adams  
-August 2015  
+September 2015  
 
 Package to help with the checkout, build and running of DUNE SW.
 
