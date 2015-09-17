@@ -17,6 +17,8 @@ cd PKGPATH
 git clone https://github.com/dladams/dune-dev
 or
 git clone git@github.com:dladams/dune-dev.git
+or
+git clone ssh://git@github.com/dladams/dune-dev
 
 # Creating and building a development area.
 # SW is installed an built in dedicated directory DEVDIR.
