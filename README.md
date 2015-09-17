@@ -37,9 +37,6 @@ source DEVDIR/dunesetup.sh
 # create the working directory.
 dune checkout
 
-# To create a new product directory.
-lbne newProduct myproduct
-
 # To build after checkout or local changes.
 dune build
 
@@ -47,10 +44,10 @@ dune build
 dune test
 
 # To run something in a dedicated session.
-lbne run lar -n 10 -c prodsingle_lbne35t.fcl
+dune run lar -n 10 -c prodsingle_lbne35t.fcl
 
 # To run in the current session.
-source $LBNE_DEVDIR/run.sh
+source $DUNE_DEVDIR/run.sh
 lar -n 10 -c prodsingle_lbne35t.fcl
 
 # To run commands in a sub shell.

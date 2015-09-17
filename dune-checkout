@@ -22,7 +22,9 @@ NEED_NEWDEV=
 echo $DUNE_LINE
 if [ -z "$HAVE_WORKDIR" ]; then
   echo Creating new workdir
-  mkdir $DUNE_DEVDIR/workdir
+  COM="mkdir $DUNE_DEVDIR/workdir"
+  $COM
+  echo "$COM" >> $DUNE_HISTORY
   NEED_NEWDEV=1
 else
   echo Using existing workdir
@@ -43,20 +45,26 @@ fi
 
 echo $DUNE_LINE
 echo Setting up $DUNE_PROJECT
-setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL
+COM="setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL"
+$COM
+echo "$COM" >> $DUNE_HISTORY
 
 
 if [ -n "$NEED_NEWDEV" ]; then
   echo $DUNE_LINE
   echo Creating mrb area
-  mrb newDev $NEWDEVOPTS
+  COM="mrb newDev $NEWDEVOPTS"
+  $COM
+  echo "$COM" >> $DUNE_HISTORY
   echo MRB_BUILDIR = $MRB_BUILDDIR
 fi
 
 echo $DUNE_LINE
 cd $DUNE_DEVDIR/workdir
 echo Setting up local product
-source $LPRODDIR/setup
+COM="source $LPRODDIR/setup"
+$COM
+echo "$COM" >> $DUNE_HISTORY
 
 if ! cd srcs; then
   echo Unable to find workdir/srcs
