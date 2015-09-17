@@ -43,6 +43,9 @@ lbne newProduct myproduct
 # To build after checkout or local changes.
 dune build
 
+# To run the tests.
+dune test
+
 # To run something in a dedicated session.
 lbne run lar -n 10 -c prodsingle_lbne35t.fcl
 
