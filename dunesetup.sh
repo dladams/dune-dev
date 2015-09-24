@@ -14,8 +14,9 @@ if test -r $SETUPFILE; then
 else
 
   # Capture the location where the DUNE scripts are installed.
-  THISFILE=`readlink -f $BASH_SOURCE`
-  THISDIR=`dirname $THISFILE`
+  THISNAME=${BASH_SOURCE[@]}
+  THISDIR=$(echo "${THISNAME%/*}")
+  THISDIR=$(cd "$THISDIR" && echo "$(pwd -P)")
   if test -z "$DUNE_INSDIR"; then
     export DUNE_INSDIR=$THISDIR
   else

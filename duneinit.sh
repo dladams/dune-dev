@@ -54,7 +54,11 @@ echo PRODUCTS=$PRODUCTS
 fi; fi
 if [ -n "$DUNE_UPS_SETUP" -a -r "$DUNE_UPS_SETUP" ]; then
   source $DUNE_UPS_SETUP
-  setup git
+  if [ $(uname) = Darwin ]; then
+    setup getopt v1_1_6
+  else
+    setup git
+  fi
   setup gitflow
   setup mrb
 
