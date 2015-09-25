@@ -1,3 +1,12 @@
 #!/bin/sh
 
+# dune-help
+#
+# David Adams
+# September 2015
+#
+# Display help for dune-dev.
+#
+# The awk command displays the code blocks, i.e. text delimited by "```".
+#
 cat $DUNE_INSDIR/README.md | awk 'BEGIN {ON=0}{if ( $0 == "```" ) ON=!ON; else if (ON) print $0;}'
