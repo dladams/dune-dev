@@ -43,6 +43,11 @@ dune build
 # To run the tests.
 dune test
 
+# To clean (restart build and install), use one of the following.
+# The first runs "mrb z" and the second is fast and effective.
+dune  clean
+dune fast clean
+
 # To run something in a dedicated session.
 dune run lar -n 10 -c prodsingle_lbne35t.fcl
 

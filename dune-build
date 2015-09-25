@@ -16,8 +16,14 @@ echo Setting up $DUNE_PROJECT
 setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL
 
 echo $DUNE_LINE
-echo Setting up local product
 LPRODDIR=localProducts_$DUNE_PRODUCT
+if [ ! -r $LPRODDIR ]; then
+  echo Local product directory not found:
+  echo "  `pwd`/$LPRODDIR"
+  echo "Run dune checkout to (re)create it"
+  exit 1
+fi
+echo Setting up local product
 source $LPRODDIR/setup
 
 echo $DUNE_LINE

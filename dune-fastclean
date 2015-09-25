@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# dune-fastclean
+#
+# David Adams
+# September 2015
+#
+# Remove local build and product areas.
+# This is a quick way to start the build from scratch.
+# The checked packages are not touched.
+
+# DUNE setup.
+source $DUNE_INSDIR/duneinit.sh
+
+echo Cleaning
+COM="rm -rf $DUNE_DEVDIR/workdir/localProducts_* $DUNE_DEVDIR/workdir/build_*"
+if [ -n "$DUNE_VERBOSE" ]; then echo Running $COM; fi
+$COM 
+echo "$COM" >> $DUNE_HISTORY

@@ -81,7 +81,6 @@ for PKGTAG in $PKGTAGS; do
   # PKGTAG = PKG or PKG%TAG
   PKG=`echo $PKGTAG | awk -F% '{print $1}'`
   TAG=`echo $PKGTAG | awk -F% '{print $2}'`
-  echo Checking out $PKG $TAG
   EXTRA=`echo $PKGTAG | awk -F% '{print $3}'`
   if [ -n "$EXTRA" ]; then
     echo Unexpected package%tag: $PKGTAG
@@ -92,38 +91,33 @@ for PKGTAG in $PKGTAGS; do
   if test -r $PKGBASE; then
     echo Package $PKG is already checked out
   else
-    echo Checking out $PKG
-    if [ $PKG = LArViewer ]; then
-      git clone https://github.com/czczc/LArViewer.git
-      cp -r LArViewer/LBNE35t/DataConverter dunetpc/XXX
-    else
-      TAGSUF=
-      if [ -n "$TAG" ]; then
-        TAGSUF="-t $TAG"
-      fi
-      COM="mrb gitCheckout $TAGSUF $PKG"
-      #if ! mrb gitCheckout $TAGSUF $PKG; then
-      if ! $COM; then
-        echo Checkout failed for $TAGSUF $PKG
-        if echo $PKG | grep ^ssh: >/dev/null 2>&1; then 
-          echo Test ssh access with
-          echo "   ssh -T git@github.com"
-          echo If that fails, add your key to the ssh agent:
-          echo "  ssh-add ~/.ssh/github_rsa"
-          echo "If that fails, start ssh agent with:"
-          echo "  eval \"$(ssh-agent -s)\""
-        fi
-        exit 1
-      else
-        echo $COM >> $DUNE_HISTORY
-      fi
-      STAT=$?
-      echo Create local feature branch
-      echo $DUNE_LINE
-      cd $PKGBASE
-      #tmp git flow feature start $GIT_BRANCH_NAME
-      cd ..
+    echo Checking out $PKG $TAG
+    TAGSUF=
+    if [ -n "$TAG" ]; then
+      TAGSUF="-t $TAG"
     fi
+    COM="mrb gitCheckout $TAGSUF $PKG"
+    #if ! mrb gitCheckout $TAGSUF $PKG; then
+    if ! $COM; then
+      echo Checkout failed for $TAGSUF $PKG
+      if echo $PKG | grep ^ssh: >/dev/null 2>&1; then 
+        echo Test ssh access with
+        echo "   ssh -T git@github.com"
+        echo If that fails, add your key to the ssh agent:
+        echo "  ssh-add ~/.ssh/github_rsa"
+        echo "If that fails, start ssh agent with:"
+        echo "  eval \"$(ssh-agent -s)\""
+      fi
+      exit 1
+    else
+      echo $COM >> $DUNE_HISTORY
+    fi
+    STAT=$?
+    echo Create local feature branch
+    echo $DUNE_LINE
+    cd $PKGBASE
+    #tmp git flow feature start $GIT_BRANCH_NAME
+    cd ..
   fi
 done
 echo $DUNE_LINE

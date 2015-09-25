@@ -5,7 +5,7 @@
 # David Adams
 # September 2015
 #
-# Build the checked-out code.
+# Clean the build area with mrb.
 
 # DUNE setup.
 source $DUNE_INSDIR/duneinit.sh
@@ -16,9 +16,15 @@ echo Setting up $DUNE_PROJECT
 setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL
 
 echo $DUNE_LINE
-cd $DUNE_DEVDIR/workdir
-echo Setting up local products
-source localProducts_$DUNE_PRODUCT/setup
+if [ -r $DUNE_DEVDIR/workdir/localProducts_$DUNE_PRODUCT/setup ]; then
+  cd $DUNE_DEVDIR/workdir
+  echo Setting up local products
+  source localProducts_$DUNE_PRODUCT/setup
+else
+  echo Local products directory not found.
+  echo "Try fastclean instead (or first do checkout)."
+  exit 1
+fi
 
 echo $DUNE_LINE
 cd $MRB_BUILDDIR

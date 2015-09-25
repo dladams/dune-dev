@@ -50,7 +50,8 @@ else
 export DUNE_INSDIR=$DUNE_INSDIR
 export DUNE_DEVDIR=$DUNE_DEVDIR
 alias dune=\$DUNE_INSDIR/dune
-alias du=\$DUNE_INSDIR/dune" >> $SETUPFILE
+alias dudev=\$DUNE_INSDIR/dune
+echo For help, use dudev help"  >> $SETUPFILE
 
 # If absent, create a configuration file.
 FILE=$DUNE_DEVDIR/config.sh
