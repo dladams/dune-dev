@@ -125,13 +125,17 @@ echo $DUNE_LINE
 # Fix the versions in local products to correspond to check outs.
 # See https://cdcvs.fnal.gov/redmine/projects/lbnecode/wiki/_Tutorial_#When-a-new-LArSoft-release-is-available-and-you-want-to-develop-against-the-new-LArSoft-release.
 if [ -n "$MRB_TOP" ]; then
-  cd $MRB_TOP
+  COM="cd $MRB_TOP"
+  $COM
+  echo "$COM" >> $DUNE_HISTORY
   if [ -r $LPRODDIR ]; then
     if [ -n "$DUNE_VERBOSE" ]; then echo Removing $LPRODDIR; fi
     rm -rf $LPRODDIR
   fi
   if [ -n "$DUNE_VERBOSE" ]; then echo Running mrb newDev; fi
-  mrb newDev -p
+  COM="mrb newDev -p"
+  $COM
+  echo "$COM" >> $DUNE_HISTORY
 else
   echo MRB_TOP is not defined
   exit 1
