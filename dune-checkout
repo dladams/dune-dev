@@ -46,9 +46,12 @@ fi
 echo $DUNE_LINE
 echo Setting up $DUNE_PROJECT
 COM="setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL"
-$COM
+if ! $COM; then
+  echo Setup failed:
+  echo "  $COM"
+  exit 1
+fi
 echo "$COM" >> $DUNE_HISTORY
-
 
 if [ -n "$NEED_NEWDEV" ]; then
   echo $DUNE_LINE
@@ -113,11 +116,37 @@ for PKGTAG in $PKGTAGS; do
       echo $COM >> $DUNE_HISTORY
     fi
     STAT=$?
-    echo Create local feature branch
-    echo $DUNE_LINE
-    cd $PKGBASE
+    #cd $PKGBASE
+    #echo Create local feature branch
+    #echo $DUNE_LINE
     #tmp git flow feature start $GIT_BRANCH_NAME
-    cd ..
+    #cd ..
+  fi
+  # Check if there is a platform-dependent product_deps.
+  LONGPLAT=`ups flavor`
+  SHORTPLAT=unknown
+  if [ $LONGPLAT = "Linux64bit+2.6-2.12" ]; then SHORTPLAT=slf6; fi
+  if [ $LONGPLAT = "Darwin64bit+14.5.0" ];  then SHORTPLAT=d14;  fi
+  OLDDEPS=$PKGBASE/ups/product_deps
+  NEWDEPS=$OLDDEPS.$SHORTPLAT
+  if [ $DUNE_VERBOSE -gt 1 ]; then
+    echo Checking for platform-dependent product_deps.
+    echo pwd: `pwd`
+    echo Old product deps: $OLDDEPS
+    echo New product deps: $OLDDEPS
+  fi
+  if [ -r $NEWDEPS ]; then
+    echo Using platform-dependent product_deps: $NEWDEPS
+    if [ -r $OLDDEPS ]; then
+      if diff $NEWDEPS $OLDDEPS 1>/dev/null; then
+        if [ $DUNE_VERBOSE -gt 0 ]; then
+          echo Exiting product_deps already matches.
+        fi
+      else
+        cp $NEWDEPS $OLDDEPS
+        echo New product deps installed.
+      fi
+    fi
   fi
 done
 echo $DUNE_LINE
