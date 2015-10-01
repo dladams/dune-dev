@@ -1,0 +1,81 @@
+#!/bin/bash
+#
+# mrbbuild
+#
+# David Adams
+# October 2015
+#
+# This script is an alternative for building SW with mrb.
+#
+# It is intended for debugging rather than as areplacement for the dune command.
+
+# config.sh may define the three DUNE_* variables below.
+if [ -r config.sh ]; then source config.sh; fi
+
+if [ -n "$1" ]; then DUNE_PROJECT=$1; fi
+if [ -n "$2" ]; then DUNE_PROJECTVERSION=$1; fi
+if [ -n "$3" ]; then DUNE_QUAL=$1; fi
+
+if [ -z "$PRODUCTS" -a -r $HOME/ups ]; then
+  PRODUCTS=$HOME/ups
+fi
+
+if [ -z $DUNE_PROJECT ]; then
+  echo define DUNE_PROJECT
+  exit 1
+fi
+
+if [ -z $DUNE_PROJECTVERSION ]; then
+  echo define DUNE_PROJECTVERSION
+  exit 1
+fi
+
+if [ -z $DUNE_QUAL ]; then
+  echo define DUNE_QUAL
+  exit 1
+fi
+
+if [ -z $PRODUCTS ]; then
+  echo define PRODUCTS
+  exit 1
+fi
+
+echo Base product: $DUNE_PROJECT $DUNE_PROJECTVERSION $DUNE_QUAL
+echo Products dir: $PRODUCTS
+
+DUNE_PRODUCT=`echo ${DUNE_PROJECT}_${DUNE_PROJECTVERSION}_${DUNE_QUAL} | sed 's/:/_/g'`
+export MRB_PROJECT=$DUNE_PROJECT
+
+source $PRODUCTS/setups
+if [ $(uname) = Darwin ]; then
+  setup getopt v1_1_6
+else
+  setup git
+fi
+setup gitflow
+setup mrb
+
+rm -rf workdir/local*
+rm -rf workdir/build*
+
+echo Setting up DUNE
+#setup dunetpc v04_24_00 -q e7:noifdh:prof
+setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL
+
+echo Creating development area.
+cd workdir
+mrb newDev -f
+
+echo Sourcing local products.
+#source localProducts_dunetpc_v04_24_00_e7_noifdh_prof/setup
+BASE_SETUP=`pwd`/localProducts_$DUNE_PRODUCT/setup
+if [ -r $BASE_SETUP ]; then
+  source $BASE_SETUP
+else
+  echo Product setup not found:
+  echo "  $BASE_SETUP"
+  exit 1
+fi
+
+mrbsetenv
+mrb i
