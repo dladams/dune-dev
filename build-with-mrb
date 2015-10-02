@@ -1,13 +1,14 @@
 #!/bin/bash
 #
-# mrbbuild
+# build_with_mrb
 #
 # David Adams
 # October 2015
 #
 # This script is an alternative for building SW with mrb.
 #
-# It is intended for debugging rather than as areplacement for the dune command.
+# It is intended for debugging rather than as a replacement for
+# the commands in this package.
 
 # config.sh may define the three DUNE_* variables below.
 if [ -r config.sh ]; then source config.sh; fi
