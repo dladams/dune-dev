@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# build-art-workbook
+#
+# David Adams
+# October 2015
+#
+# Build the art-workbook package
+# Based on instructions in the art user manual v 0.9:
+# https://web.fnal.gov/project/artdoc/shared%20documents/art-documentation.pdf
+
+if [ "$1" == "-h" ]; then
+  echo "$Usage $0 [BRANCH]"
+  echo "  User manual recommends BRANCH = August2015"
+  exit 0
+fi
+
+BRANCH=$1
+
+STARTDIR=`pwd`
+
+if [ ! -r workdir ]; then
+  rm -rf workdir
+  mkdir workdir
+fi
+
+cd workdir
+
+if [ ! -r output ]; then
+  rm -rf output
+  mkdir output
+fi
+
+source ~/ups/setups
+setup git
+
+if [ ! -r art-workbook ]; then
+  git clone http://cdcvs.fnal.gov/projects/art-workbook
+  cd art-workbook
+  if [ -n "$BRANCH" ]; then
+    git checkout -b work origin/August2015
+  fi
+else
+  cd art-workbook
+fi
+
+#echo Setting up deps with qualifier $ART_WORKBOOK_QUAL
+#source ups/setup_deps -p $ART_WORKBOOK_QUAL
+echo Setting up for development
+source ups/setup_for_development -p
+
+cd $STARTDIR/workdir
+if [ ! -r build-prof ]; then
+  mkdir build-prof
+fi
+
+cd build-prof
+if [ ! -r output ]; then
+  ln -s ../output output
+fi
+
+echo Setting up for development
+source ../art-workbook/ups/setup_for_development -p
+
+echo
+echo Building
+buildtool -j4
