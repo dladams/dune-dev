@@ -31,7 +31,20 @@ if [ ! -r output ]; then
   mkdir output
 fi
 
-source ~/ups/setups
+if [ $(type -t setup) != "function" ]; then
+  echo Setting up UPS.
+  if [ -z "$PRODUCTS" ]; then
+    PRODUCTS=$HOME/ups
+  fi
+  SUPFILE=$PRODUCTS/setups
+  if [ ! -r $SUPFILE ]; then
+    echo Unable to find UPS installation directory.
+    echo I.e. no setups at $PRODUCTS
+    exit 1
+  fi
+  source $SUPFILE
+fi
+
 setup git
 
 if [ ! -r art-workbook ]; then
