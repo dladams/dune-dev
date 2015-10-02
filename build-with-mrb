@@ -17,7 +17,7 @@ if [ -n "$1" ]; then DUNE_PROJECT=$1; fi
 if [ -n "$2" ]; then DUNE_PROJECTVERSION=$1; fi
 if [ -n "$3" ]; then DUNE_QUAL=$1; fi
 
-if [ -z "$PRODUCTS" -a -r $HOME/ups ]; then
+if [ -z "$PRODUCTS" -a -r $HOME/ups/setups ]; then
   PRODUCTS=$HOME/ups
 fi
 

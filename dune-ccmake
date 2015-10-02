@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# dune-ccmake
+#
+# David Adams
+# October 2015
+#
+# Browse the cmake variables.
+
+# DUNE setup.
+source $DUNE_INSDIR/duneinit.sh
+
+echo $DUNE_LINE
+LPRODDIR=$DUNE_DEVDIR/workdir/localProducts_$DUNE_PRODUCT
+if [ ! -r $LPRODDIR ]; then
+  echo Local product directory not found:
+  echo "  `pwd`/$LPRODDIR"
+  echo "Run dune checkout to (re)create it"
+  exit 1
+fi
+echo Setting up local product
+source $LPRODDIR/setup
+
+mrbsetenv
+
+ccmake $MRB_BUILDDIR
