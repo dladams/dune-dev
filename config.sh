@@ -13,12 +13,13 @@
 DUNE_PROJECT=dunetpc
 
 # Specify the version for the base project.
-DUNE_PROJECTVERSION=v04_22_00
+DUNE_PROJECTVERSION=v04_27_00
 
 # Specify the UPS qualifier for the base product.
 # UPS can be used to discover the available values, e.g.
 # > ups list -aK+ larsoft | grep v02_03_00
-DUNE_QUAL=e7:prof
+#DUNE_QUAL=debug:e9
+DUNE_QUAL=e9:prof
 
 # Flag for which increasing values provide more log messages.
 DUNE_VERBOSE=1
