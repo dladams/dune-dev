@@ -4,6 +4,8 @@
 #
 # This is the list of git repositories to checkout to the development area.
 # Uncomment at least one of the below or add your own.
+#
+# Append %TAG to check out a tag, e.g. dunetpc%v04_27_00.
 
 #larsim
 #dunetpc
