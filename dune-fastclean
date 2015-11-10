@@ -12,8 +12,12 @@
 # DUNE setup.
 source $DUNE_INSDIR/duneinit.sh
 
+RMFILES="$DUNE_DEVDIR/workdir/localProducts_* $DUNE_DEVDIR/workdir/build_*"
+# Following is a bad idea. Mrb will rebuild this file with other things in srcs.
+#RMFILES="$RMFILES $DUNE_DEVDIR/workdir/srcs/CMakeLists.txt"
+
 echo Cleaning
-COM="rm -rf $DUNE_DEVDIR/workdir/localProducts_* $DUNE_DEVDIR/workdir/build_*"
+COM="rm -rf $RMFILES"
 if [ -n "$DUNE_VERBOSE" ]; then echo Running $COM; fi
 $COM 
 echo "$COM" >> $DUNE_HISTORY

@@ -25,7 +25,7 @@ git clone ssh://git@github.com/dladams/dune-dev
 # This also initializes the session
 mkdir DEVDIR
 cd DEVDIR
-source PKGDIR/dunesetup.sh
+source PKGDIR/setup.sh
 # Edit config.sh and packages.txt
 
 # To initialize in subsequent sessions

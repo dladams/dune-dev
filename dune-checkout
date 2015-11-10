@@ -36,12 +36,15 @@ NEWDEVOPTS=
 LPRODDIR=localProducts_$DUNE_PRODUCT
 if [ ! -r srcs ]; then
   NEED_NEWDEV=1
+else if [ ! -r srcs/CMakeLists.txt ]; then
+  NEED_NEWDEV=1
+  NEWDEVOPTS="-f"   # To allow use of existing srcs area
 else
   if [ ! -r $LPRODDIR ]; then
     NEED_NEWDEV=1
     NEWDEVOPTS="-f"   # To allow use of existing srcs area
   fi
-fi
+fi; fi
 
 echo $DUNE_LINE
 echo Setting up $DUNE_PROJECT
@@ -60,6 +63,10 @@ if [ -n "$NEED_NEWDEV" ]; then
   $COM
   echo "$COM" >> $DUNE_HISTORY
   echo MRB_BUILDIR = $MRB_BUILDDIR
+  # Update the master CMakeLists.txt file
+  #COM="mrb updateDepsCM"
+  #$COM
+  #echo "$COM" >> $DUNE_HISTORY
 fi
 
 echo $DUNE_LINE
@@ -169,6 +176,12 @@ else
   echo MRB_TOP is not defined
   exit 1
 fi
+
+# Make sure the master CMakeLists.txt is up to date.
+# User may have added new packages.
+COM="mrb uc"
+$COM
+echo "$COM" >> $DUNE_HISTORY
 
 echo $DUNE_LINE
 exit 5
