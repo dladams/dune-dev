@@ -15,6 +15,7 @@ source $DUNE_INSDIR/duneinit.sh
 RMFILES="$DUNE_DEVDIR/workdir/localProducts_* $DUNE_DEVDIR/workdir/build_*"
 # Following is a bad idea. Mrb will rebuild this file with other things in srcs.
 #RMFILES="$RMFILES $DUNE_DEVDIR/workdir/srcs/CMakeLists.txt"
+RMFILES="$RMFILES $DUNE_DEVDIR/run.sh"
 
 echo Cleaning
 COM="rm -rf $RMFILES"
