@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# dune-runscript
+# Create setup file for running.
+
+TESTSCRIPT=$DUNE_DEVDIR/test.sh
+if [ ! -r $TESTSCRIPT ]; then
+  echo "source $DUNE_INSDIR/duneinit.sh" >>$TESTSCRIPT
+  for SETUP in $DUNE_DEVDIR/workdir/localProducts*/setup; do
+    echo source $SETUP >>$TESTSCRIPT
+  done
+  echo mrbslp >>$TESTSCRIPT
+  echo 'SAVEDIR=`pwd`' >>$TESTSCRIPT
+  echo 'cd $MRB_BUILDDIR' >>$TESTSCRIPT
+  echo 'mrbsetenv' >>$TESTSCRIPT
+  echo 'cd $SAVEDIR' >>$TESTSCRIPT
+  echo "PS1=\"dune-test> \"" >>$TESTSCRIPT
+  echo "export DUNE_SHELLSCRIPT=$TESTSCRIPT" >>$TESTSCRIPT
+fi

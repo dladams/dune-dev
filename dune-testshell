@@ -3,5 +3,5 @@ if [ -n "$DUNE_SHELLSCRIPT" ]; then
   echo Please exit before starting a new shell.
   exit 1
 fi
-$DUNE_INSDIR/dune runscript
-bash --rcfile $DUNE_DEVDIR/run.sh
+$DUNE_INSDIR/dune testscript
+bash --rcfile $DUNE_DEVDIR/test.sh
