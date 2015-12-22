@@ -110,14 +110,22 @@ for PKGTAG in $PKGTAGS; do
     #if ! mrb gitCheckout $TAGSUF $PKG; then
     if ! $COM; then
       echo Checkout failed for $TAGSUF $PKG
-      if echo $PKG | grep ^ssh: >/dev/null 2>&1; then 
+      if echo $PKG | grep ^ssh://git >/dev/null 2>&1; then 
+        echo Unable to gain ssh access to github.
         echo Test ssh access with
         echo "   ssh -T git@github.com"
         echo If that fails, add your key to the ssh agent:
         echo "  ssh-add ~/.ssh/github_rsa"
         echo "If that fails, start ssh agent with:"
         echo "  eval \"$(ssh-agent -s)\""
-      fi
+        echo "Or switch to http."
+      else if echo $PKG | grep ^ssh://.*@cdcvs.fnal.gov >/dev/null 2>&1; then
+        echo Unable to gain ssh access to fnal cdcvs.
+        echo Obtain FNAL kerberos ticket.
+        echo Or switch to http.
+      else
+        echo Unknown repository/site: $PKG
+      fi; fi
       exit 1
     else
       echo $COM >> $DUNE_HISTORY

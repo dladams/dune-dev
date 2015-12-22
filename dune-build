@@ -55,3 +55,4 @@ mrbslp
 cd $THISDIR
 
 if [ -n "$DUNE_VERBOSE" ]; then echo exiting dune-build; fi
+echo Build finished `date`
