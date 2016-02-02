@@ -1,13 +1,31 @@
 # packages .txt
 #
+# David Adams
+# February 2016
+#
 # Example package list file for use with dune-dev.
 #
 # This is the list of git repositories to checkout to the development area.
 # Uncomment at least one of the below or add your own.
 #
-# Append %TAG to check out a tag, e.g. dunetpc%v04_27_00.
+# Check out is done with mrb gitCheckout.
+# For FNAL products, the package name is sufficient and ssh
+# access is used if the user has a kerberos ticket with
+# permissions. Otherwise http is used.
+#
+# Append %TAG to check out a tag, e.g. dunetpc%v04_35_00.
 
+# FNAL products.
 #larsim
 #dunetpc
+#ssh://p-dunetpc@cdcvs.fnal.gov/cvs/projects/dunetpc
+
+# D. Adams products readonly.
+#https://github.com/dladams/art_extensions
+#https://github.com/dladams/dune_extensions
+#https://github.com/dladams/dunezs
+
+# D. Adams read/write.
 #ssh://git@github.com/dladams/art_extensions
 #ssh://git@github.com/dladams/dune_extensions
+#ssh://git@github.com/dladams/dunezs

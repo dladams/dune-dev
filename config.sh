@@ -1,7 +1,7 @@
 # config.sh
 #
 # David Adams
-# August 2015
+# February 2016
 #
 # This is an example configuration file for dune-dev.
 #
@@ -13,7 +13,7 @@
 DUNE_PROJECT=dunetpc
 
 # Specify the version for the base project.
-DUNE_PROJECTVERSION=v04_27_00
+DUNE_PROJECTVERSION=v04_35_00
 
 # Specify the UPS qualifier for the base product.
 # UPS can be used to discover the available values, e.g.
