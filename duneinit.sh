@@ -36,10 +36,10 @@ source $DUNE_CONFIG_FILE
 # and BNL or otherwise assume generic installation at $PRODUCTS.
 if test -n "${DUNE_VERBOSE}"; then echo Setting up UPS; fi
 export DUNE_UPS_SETUP=
-if hostname | grep lbnegpvm...fnal.gov >/dev/null; then
+if hostname | grep dunegpvm...fnal.gov >/dev/null; then
   PRODUCTS=
   DUNE_SITE=FNAL
-  DUNE_UPS_SETUP=$DUNE_INSDIR/fnal_setup_lbne.sh
+  DUNE_UPS_SETUP=$DUNE_INSDIR/fnal_setup_dune.sh
 #else if hostname | grep lbne.....rcf.bnl.gov >/dev/null; then
 #  PRODUCTS=
 #  LDUNESITE=BNL
@@ -70,7 +70,7 @@ if [ -n "$DUNE_UPS_SETUP" -a -r "$DUNE_UPS_SETUP" ]; then
   export MRB_PROJECT=$DUNE_PROJECT
   export DUNE_IS_SETUP=True
 else
-  echo WARNING: Site-specific setup file not found!
+  echo WARNING: Site-specific setup file not found: $DUNE_UPS_SETUP}!
 fi
 
 # Terminate error check.
