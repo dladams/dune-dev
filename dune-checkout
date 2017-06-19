@@ -122,6 +122,7 @@ for PKGTAG in $PKGTAGS; do
     #if ! mrb gitCheckout $TAGSUF $PKG; then
     if ! $COM; then
       echo Checkout failed for $TAGSUF $PKG
+      echo Command: $COM
       if echo $PKG | grep ^ssh://git >/dev/null 2>&1; then 
         echo Unable to gain ssh access to github.
         echo Test ssh access with
