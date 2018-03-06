@@ -36,7 +36,7 @@ source $DUNE_CONFIG_FILE
 # and BNL or otherwise assume generic installation at $PRODUCTS.
 if test -n "${DUNE_VERBOSE}"; then echo Setting up UPS; fi
 export DUNE_UPS_SETUP=
-if hostname | grep dunegpvm...fnal.gov >/dev/null; then
+if hostname | grep dune.*fnal.gov >/dev/null; then
   PRODUCTS=
   DUNE_SITE=FNAL
   DUNE_UPS_SETUP=$DUNE_INSDIR/fnal_setup_dune.sh
