@@ -82,7 +82,9 @@ if [ -n "$NEED_NEWDEV" ]; then
 fi
 
 echo $DUNE_LINE
-cd $DUNE_DEVDIR/workdir
+COM="cd $DUNE_DEVDIR/workdir"
+$COM
+echo "$COM" >> $DUNE_HISTORY
 echo Setting up local product
 COM="source $LPRODDIR/setup"
 $COM

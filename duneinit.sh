@@ -53,6 +53,7 @@ echo PRODUCTS=$PRODUCTS
   echo WARNING: Unknown site for host `hostname`
 fi; fi
 if [ -n "$DUNE_UPS_SETUP" -a -r "$DUNE_UPS_SETUP" ]; then
+  echo source $DUNE_UPS_SETUP >$DUNE_HISTORY
   source $DUNE_UPS_SETUP
   if [ $(uname) = Darwin ]; then
     setup getopt v1_1_6
