@@ -17,7 +17,7 @@
 
 # FNAL products.
 #larsim
-#dunetpc
+dunetpc
 #ssh://p-dunetpc@cdcvs.fnal.gov/cvs/projects/dunetpc
 
 # D. Adams products readonly.
