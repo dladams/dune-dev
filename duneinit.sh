@@ -20,8 +20,8 @@ alias du=$DUNE_INSDIR/dune
 
 # Set configuration defaults.
 export DUNE_PROJECT=larsoft
-export DUNE_PROJECTVERSION=v04_20_00
-export DUNE_QUAL=e7:prof
+export DUNE_PROJECTVERSION=v08_42_00
+export DUNE_QUAL=e19:prof
 export DUNE_VERBOSE=False
 export DUNE_CONFIG_FILE=$DUNE_DEVDIR/config.sh
 export DUNE_PACKAGE_FILE=$DUNE_DEVDIR/packages.txt
