@@ -5,6 +5,11 @@
 
 RUNSCRIPT=$DUNE_DEVDIR/run.sh
 if [ ! -r $RUNSCRIPT ]; then
+  echo "# Generated $(date)"
+  echo export DUNE_INSDIR=$DUNE_INSDIR >>$RUNSCRIPT
+  echo export DUNE_DEVDIR=$DUNE_DEVDIR >>$RUNSCRIPT
+  echo export DUNE_PROJECTVERSION=$DUNE_PROJECTVERSION >>$RUNSCRIPT
+  echo export DUNE_DEVDIR=/nashome/d/dladams/proc/build/dev01 >>$RUNSCRIPT
   echo "source $DUNE_INSDIR/duneinit.sh" >>$RUNSCRIPT
   for SETUP in $DUNE_DEVDIR/workdir/localProducts*/setup; do
     echo source $SETUP >>$RUNSCRIPT

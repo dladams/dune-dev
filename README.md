@@ -59,4 +59,8 @@ lar -n 10 -c prodsingle_lbne35t.fcl
 dune shell
 lar -n 10 -c prodsingle_lbne35t.fcl
 exit
+
+# To use build from a clean area.
+source &lt;install-area>/run.sh
+lar ...
 ```
