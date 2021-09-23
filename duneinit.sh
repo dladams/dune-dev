@@ -61,7 +61,11 @@ if [ -n "$DUNE_UPS_SETUP" -a -r "$DUNE_UPS_SETUP" ]; then
     setup git
   fi
   setup gitflow
-  setup mrb
+  if [ $DUNE_PROJECTVERSION = v09_30_00 ]; then
+    setup mrb -o
+  else
+    setup mrb
+  fi
 
   # Setup derived environment.
   THISBASE=`basename $DUNE_DEVDIR`

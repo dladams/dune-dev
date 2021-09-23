@@ -8,12 +8,19 @@
 # Build the checked-out code.
 
 # DUNE setup.
-source $DUNE_INSDIR/duneinit.sh
+COM="source $DUNE_INSDIR/duneinit.sh"
+$COM
+echo "$COM" >> $DUNE_HISTORY
 
 echo $DUNE_LINE
-cd $DUNE_DEVDIR/workdir
+COM="cd $DUNE_DEVDIR/workdir"
+$COM
+echo "$COM" >> $DUNE_HISTORY
+
 echo Setting up $DUNE_PROJECT
-setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL
+COM="setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL"
+$COM
+echo "$COM" >> $DUNE_HISTORY
 
 echo $DUNE_LINE
 LPRODDIR=localProducts_$DUNE_PRODUCT
@@ -24,14 +31,18 @@ if [ ! -r $LPRODDIR ]; then
   exit 1
 fi
 echo Setting up local product
-source $LPRODDIR/setup
+COM="source $LPRODDIR/setup"
+$COM
+echo "$COM" >> $DUNE_HISTORY
 
 echo $DUNE_LINE
 if [ -z "$MRB_BUILDDIR" ]; then
   echo MRB_BUILDDIR must be defined.
   exit 1
 fi
-cd $MRB_BUILDDIR
+COM="cd $MRB_BUILDDIR"
+$COM 
+echo "$COM" >> $DUNE_HISTORY
 echo Building in `pwd`
 echo $DUNE_LINE
 if [ -n "$DUNE_VERBOSE" ]; then echo Running mrbsetenv; fi
@@ -51,8 +62,13 @@ echo "$COM" >> $DUNE_HISTORY
 echo $DUNE_LINE
 echo Set up to run
 if [ -n "$DUNE_VERBOSE" ]; then echo Running mrbslp; fi
-mrbslp
-cd $THISDIR
+COM=mrbslp
+$COM 
+echo "$COM" >> $DUNE_HISTORY
+
+COM="cd $THISDIR"
+$COM 
+echo "$COM" >> $DUNE_HISTORY
 
 if [ -n "$DUNE_VERBOSE" ]; then echo exiting dune-build; fi
 echo Build finished `date`
