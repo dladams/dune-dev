@@ -5,7 +5,11 @@
 # Goal is to define the PRODUCTS path and setup the ups command.
 
 echo Setting up DUNE UPS products for $DUNE_SITE
-PRODDIR=`echo $PRODUCTS | sed 's/.*://g'`
+# DUNE product dir Jan 2022
+PRODDIR=/cvmfs/dune.opensciencegrid.org/products/dune
+if [ ! -r $PRODDIR ]; then
+  PRODDIR=`echo $PRODUCTS | sed 's/.*://g'`
+fi
 PRODSETUP=$PRODDIR/setups
 if [ -n "$DUNE_VERBOSE" ]; then echo Setting up ups with $PRODSETUP; fi
 source $PRODSETUP
