@@ -36,10 +36,16 @@ source $DUNE_CONFIG_FILE
 # and BNL or otherwise assume generic installation at $PRODUCTS.
 if test -n "${DUNE_VERBOSE}"; then echo Setting up UPS; fi
 export DUNE_UPS_SETUP=
-if hostname | grep dune.*fnal.gov >/dev/null; then
+# Jan 2022: Use cvmfs if found.
+CVSUP=/cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
+if [ -r $CVSUP ]; then
+  DUNE_UPS_SETUP=$CVSUP
+  echo INFO: Using cvmfs setup
+elif hostname | grep dune.*fnal.gov >/dev/null; then
   PRODUCTS=
   DUNE_SITE=FNAL
   DUNE_UPS_SETUP=$DUNE_INSDIR/fnal_setup_dune.sh
+  echo INFO: Using fnal setup
 #else if hostname | grep lbne.....rcf.bnl.gov >/dev/null; then
 #  PRODUCTS=
 #  LDUNESITE=BNL
@@ -47,9 +53,9 @@ if hostname | grep dune.*fnal.gov >/dev/null; then
 else if [ -n "$PRODUCTS" ]; then
   DUNE_SITE=`hostname`
   DUNE_UPS_SETUP=$DUNE_INSDIR/setup_dune.sh
+  echo INFO: Using PRODUCTS=$PRODUCTS setup
 else
 echo PRODUCTS=$PRODUCTS
-
   echo WARNING: Unknown site for host `hostname`
 fi; fi
 if [ -n "$DUNE_UPS_SETUP" -a -r "$DUNE_UPS_SETUP" ]; then
