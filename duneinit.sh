@@ -5,14 +5,16 @@
 #
 # Bash file to be sourced to check out or build DUNE SW.
 
+PRE="duneinit: "
+
 # Check that the build script installation directory is specified.
 if test -z "$DUNE_INSDIR"; then
-  echo DUNE_INSDIR is not defined.
+  echo ${PRE}DUNE_INSDIR is not defined.
 else
 
 # Check that the build directory is specified.
 if test -z "$DUNE_DEVDIR"; then
-  echo DUNE_DEVDIR is not defined.
+  echo ${PRE}DUNE_DEVDIR is not defined.
 else
 
 alias dune=$DUNE_INSDIR/dune
@@ -34,18 +36,18 @@ source $DUNE_CONFIG_FILE
 # Set up UPS, git and mrb.
 # For now, we use the host name to choose the setup file for fnal
 # and BNL or otherwise assume generic installation at $PRODUCTS.
-if test -n "${DUNE_VERBOSE}"; then echo Setting up UPS; fi
+if test -n "${DUNE_VERBOSE}"; then echo ${PRE}Setting up UPS; fi
 export DUNE_UPS_SETUP=
 # Jan 2022: Use cvmfs if found.
 CVSUP=/cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
 if [ -r $CVSUP ]; then
   DUNE_UPS_SETUP=$CVSUP
-  echo INFO: Using cvmfs setup
+  echo ${PRE}INFO: Using cvmfs setup
 elif hostname | grep dune.*fnal.gov >/dev/null; then
   PRODUCTS=
   DUNE_SITE=FNAL
   DUNE_UPS_SETUP=$DUNE_INSDIR/fnal_setup_dune.sh
-  echo INFO: Using fnal setup
+  echo ${PRE}INFO: Using fnal setup
 #else if hostname | grep lbne.....rcf.bnl.gov >/dev/null; then
 #  PRODUCTS=
 #  LDUNESITE=BNL
@@ -53,20 +55,22 @@ elif hostname | grep dune.*fnal.gov >/dev/null; then
 else if [ -n "$PRODUCTS" ]; then
   DUNE_SITE=`hostname`
   DUNE_UPS_SETUP=$DUNE_INSDIR/setup_dune.sh
-  echo INFO: Using PRODUCTS=$PRODUCTS setup
+  echo ${PRE}INFO: Using PRODUCTS=$PRODUCTS setup
 else
-echo PRODUCTS=$PRODUCTS
-  echo WARNING: Unknown site for host `hostname`
+  echo ${PRE}PRODUCTS=$PRODUCTS
+  echo ${PRE}WARNING: Unknown site for host `hostname`
 fi; fi
 if [ -n "$DUNE_UPS_SETUP" -a -r "$DUNE_UPS_SETUP" ]; then
-  echo source $DUNE_UPS_SETUP >$DUNE_HISTORY
+  echo ${PRE}Sourcing $DUNE_UPS_SETUP
   source $DUNE_UPS_SETUP
+  echo ${PRE}Setting up git, gitflow
   if [ $(uname) = Darwin ]; then
     setup getopt v1_1_6
   else
     setup git
   fi
   setup gitflow
+  echo ${PRE}Setting up mrb
   if [ $DUNE_PROJECTVERSION = v09_30_00 ]; then
     setup mrb -o
   else
@@ -77,11 +81,11 @@ if [ -n "$DUNE_UPS_SETUP" -a -r "$DUNE_UPS_SETUP" ]; then
   THISBASE=`basename $DUNE_DEVDIR`
   THISUSER=`whoami`
   export DUNE_PRODUCT=`echo ${DUNE_PROJECT}_${DUNE_PROJECTVERSION}_${DUNE_QUAL} | sed 's/:/_/g'`
-  export DUNE_GIT_BRANCH_NAME=`echo branch-${THISUSER}-${THISBASE} | sed 's/:/_/g'`
+  export DUNE_GIT_BRANCH_NAME=`echo ${PRE}branch-${THISUSER}-${THISBASE} | sed 's/:/_/g'`
   export MRB_PROJECT=$DUNE_PROJECT
   export DUNE_IS_SETUP=True
 else
-  echo WARNING: Site-specific setup file not found: $DUNE_UPS_SETUP}!
+  echo ${PRE}WARNING: Site-specific setup file not found: $DUNE_UPS_SETUP}!
 fi
 
 # Terminate error check.

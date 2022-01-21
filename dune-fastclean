@@ -7,7 +7,7 @@
 #
 # Remove local build and product areas.
 # This is a quick way to start the build from scratch.
-# The checked packages are not touched.
+# The checked-out sources are not touched.
 
 # DUNE setup.
 source $DUNE_INSDIR/duneinit.sh

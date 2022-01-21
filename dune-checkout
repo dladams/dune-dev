@@ -10,9 +10,11 @@
 # DUNE setup.
 source $DUNE_INSDIR/duneinit.sh
 
+PRE="dune_checkout: "
+
 PKGFILE=$DUNE_DEVDIR/packages.txt
 if ! test -r $PKGFILE; then
-  echo Package file not found: $PKGFILE
+  echo ${PRE}Package file not found: $PKGFILE
   exit 1
 fi
 
@@ -20,21 +22,22 @@ fi
 HAVE_WORKDIR=`ls -d $DUNE_DEVDIR/workdir 2>/dev/null`
 NEED_NEWDEV=
 NEED_CMAKE=
-echo $DUNE_LINE
+echo ${PRE}$DUNE_LINE
 if [ -z "$HAVE_WORKDIR" ]; then
-  echo Creating new workdir
+  echo ${PRE}Creating new workdir
   COM="mkdir $DUNE_DEVDIR/workdir"
   $COM
-  echo "$COM" >> $DUNE_HISTORY
+  echo ${PRE}"$COM" >> $DUNE_HISTORY
   NEED_NEWDEV=1
 else
-  echo Using existing workdir
+  echo ${PRE}Using existing workdir
 fi
 
 cd $DUNE_DEVDIR/workdir
 
 NEWDEVOPTS=
 LPRODDIR=localProducts_$DUNE_PRODUCT
+echo ${PRE}Local products dir is $LPRODDIR
 if [ ! -r srcs ]; then
   NEED_NEWDEV=1
 else if [ ! -r srcs/CMakeLists.txt ]; then
@@ -48,23 +51,23 @@ else
   fi
 fi; fi
 
-echo $DUNE_LINE
-echo Setting up $DUNE_PROJECT
+echo ${PRE}$DUNE_LINE
+echo ${PRE}Setting up $DUNE_PROJECT
 COM="setup $DUNE_PROJECT $DUNE_PROJECTVERSION -q $DUNE_QUAL"
 if ! $COM; then
-  echo Setup failed:
-  echo "  $COM"
+  echo ${PRE}Setup failed:
+  echo ${PRE}"  $COM"
   exit 1
 fi
-echo "$COM" >> $DUNE_HISTORY
+echo ${PRE}"$COM" >> $DUNE_HISTORY
 
 if [ -n "$NEED_NEWDEV" ]; then
-  echo $DUNE_LINE
-  echo Creating mrb area
+  echo ${PRE}$DUNE_LINE
+  echo ${PRE}Creating mrb area
   if [ -n "$NEED_CMAKE" ]; then
     set -x
     mv srcs ../srcs.save
-    echo "Checking out temporary copy of packages to force rebuild of cmake file."
+    echo ${PRE}"Checking out temporary copy of packages to force rebuild of cmake file."
     mrb newDev
     rm -rf srcs
     mv ../srcs.save srcs
@@ -72,50 +75,50 @@ if [ -n "$NEED_NEWDEV" ]; then
   else
     COM="mrb newDev $NEWDEVOPTS"
     $COM
-    echo "$COM" >> $DUNE_HISTORY
+    echo ${PRE}"$COM" >> $DUNE_HISTORY
   fi
-  echo MRB_BUILDIR = $MRB_BUILDDIR
+  echo ${PRE}MRB_BUILDIR = $MRB_BUILDDIR
   # Update the master CMakeLists.txt file
   #COM="mrb updateDepsCM"
   #$COM
-  #echo "$COM" >> $DUNE_HISTORY
+  #echo ${PRE}"$COM" >> $DUNE_HISTORY
 fi
 
-echo $DUNE_LINE
+echo ${PRE}$DUNE_LINE
 COM="cd $DUNE_DEVDIR/workdir"
 $COM
-echo "$COM" >> $DUNE_HISTORY
-echo Setting up local product
+echo "${PRE}$COM" >> $DUNE_HISTORY
+echo ${PRE}Setting up local product
 COM="source $LPRODDIR/setup"
 $COM
-echo "$COM" >> $DUNE_HISTORY
+echo ${PRE}"$COM" >> $DUNE_HISTORY
 
 if ! cd srcs; then
-  echo Unable to find workdir/srcs
-  echo PWD is `pwd`
+  echo ${PRE}Unable to find workdir/srcs
+  echo ${PRE}PWD is `pwd`
   exit 1
 fi
 
 # Loop over local packages and check out if not already present.
-echo $DUNE_LINE
-echo Checking out packages
+echo ${PRE}$DUNE_LINE
+echo ${PRE}Checking out packages
 PKGTAGS=`cat $PKGFILE | sed 's/#.*//g'`
 for PKGTAG in $PKGTAGS; do
-  echo $DUNE_LINE
+  echo ${PRE}$DUNE_LINE
   # PKGTAG = PKG or PKG%TAG
   PKG=`echo $PKGTAG | awk -F% '{print $1}'`
   TAG=`echo $PKGTAG | awk -F% '{print $2}'`
   EXTRA=`echo $PKGTAG | awk -F% '{print $3}'`
   if [ -n "$EXTRA" ]; then
-    echo Unexpected package%tag: $PKGTAG
+    echo ${PRE}Unexpected package%tag: $PKGTAG
     exit 1
   fi
   PKGPREFIX=`echo $PKG | awk -F/ '{print $1}'`
   PKGBASE=`basename $PKG`
   if test -r $PKGBASE; then
-    echo Package $PKG is already checked out
+    echo ${PRE}Package $PKG is already checked out
   else
-    echo Checking out $PKG $TAG
+    echo ${PRE}Checking out $PKG $TAG
     TAGSUF=
     if [ -n "$TAG" ]; then
       TAGSUF="-t $TAG"
@@ -123,23 +126,23 @@ for PKGTAG in $PKGTAGS; do
     COM="mrb gitCheckout $TAGSUF $PKG"
     #if ! mrb gitCheckout $TAGSUF $PKG; then
     if ! $COM; then
-      echo Checkout failed for $TAGSUF $PKG
-      echo Command: $COM
+      echo ${PRE}Checkout failed for $TAGSUF $PKG
+      echo ${PRE}Command: $COM
       if echo $PKG | grep ^ssh://git >/dev/null 2>&1; then 
-        echo Unable to gain ssh access to github.
-        echo Test ssh access with
-        echo "   ssh -T git@github.com"
-        echo If that fails, add your key to the ssh agent:
-        echo "  ssh-add ~/.ssh/github_rsa"
-        echo "If that fails, start ssh agent with:"
-        echo "  eval \"$(ssh-agent -s)\""
-        echo "Or switch to http."
+        echo ${PRE}Unable to gain ssh access to github.
+        echo ${PRE}Test ssh access with
+        echo ${PRE}"   ssh -T git@github.com"
+        echo ${PRE}If that fails, add your key to the ssh agent:
+        echo ${PRE}"  ssh-add ~/.ssh/github_rsa"
+        echo ${PRE}"If that fails, start ssh agent with:"
+        echo ${PRE}"  eval \"$(ssh-agent -s)\""
+        echo ${PRE}"Or switch to http."
       else if echo $PKG | grep ^ssh://.*@cdcvs.fnal.gov >/dev/null 2>&1; then
-        echo Unable to gain ssh access to fnal cdcvs.
-        echo Obtain FNAL kerberos ticket.
-        echo Or switch to http.
+        echo ${PRE}Unable to gain ssh access to fnal cdcvs.
+        echo ${PRE}Obtain FNAL kerberos ticket.
+        echo ${PRE}Or switch to http.
       else
-        echo Unknown repository/site: $PKG
+        echo ${PRE}Unknown repository/site: $PKG
       fi; fi
       exit 1
     else
@@ -147,8 +150,8 @@ for PKGTAG in $PKGTAGS; do
     fi
     STAT=$?
     #cd $PKGBASE
-    #echo Create local feature branch
-    #echo $DUNE_LINE
+    #echo ${PRE}Create local feature branch
+    #echo ${PRE}$DUNE_LINE
     #tmp git flow feature start $GIT_BRANCH_NAME
     #cd ..
   fi
@@ -160,26 +163,26 @@ for PKGTAG in $PKGTAGS; do
   OLDDEPS=$PKGBASE/ups/product_deps
   NEWDEPS=$OLDDEPS.$SHORTPLAT
   if [ $DUNE_VERBOSE -gt 1 ]; then
-    echo Checking for platform-dependent product_deps.
-    echo pwd: `pwd`
-    echo Old product deps: $OLDDEPS
-    echo New product deps: $OLDDEPS
+    echo ${PRE}Checking for platform-dependent product_deps.
+    echo ${PRE}pwd: `pwd`
+    echo ${PRE}Old product deps: $OLDDEPS
+    echo ${PRE}New product deps: $OLDDEPS
   fi
   if [ -r $NEWDEPS ]; then
-    echo Using platform-dependent product_deps: $NEWDEPS
+    echo ${PRE}Using platform-dependent product_deps: $NEWDEPS
     if [ -r $OLDDEPS ]; then
       if diff $NEWDEPS $OLDDEPS 1>/dev/null; then
         if [ $DUNE_VERBOSE -gt 0 ]; then
-          echo Exiting product_deps already matches.
+          echo ${PRE}Exiting product_deps already matches.
         fi
       else
         cp $NEWDEPS $OLDDEPS
-        echo New product deps installed.
+        echo ${PRE}New product deps installed.
       fi
     fi
   fi
 done
-echo $DUNE_LINE
+echo ${PRE}$DUNE_LINE
 
 # Fix the versions in local products to correspond to check outs.
 # See https://cdcvs.fnal.gov/redmine/projects/lbnecode/wiki/_Tutorial_#When-a-new-LArSoft-release-is-available-and-you-want-to-develop-against-the-new-LArSoft-release.
@@ -188,15 +191,15 @@ if [ -n "$MRB_TOP" ]; then
   $COM
   echo "$COM" >> $DUNE_HISTORY
   if [ -r $LPRODDIR ]; then
-    if [ -n "$DUNE_VERBOSE" ]; then echo Removing $LPRODDIR; fi
+    if [ -n "$DUNE_VERBOSE" ]; then ${PRE}echo Removing $LPRODDIR; fi
     rm -rf $LPRODDIR
   fi
-  if [ -n "$DUNE_VERBOSE" ]; then echo Running mrb newDev; fi
+  if [ -n "$DUNE_VERBOSE" ]; then echo ${PRE}Running mrb newDev; fi
   COM="mrb newDev -p"
   $COM
   echo "$COM" >> $DUNE_HISTORY
 else
-  echo MRB_TOP is not defined
+  echo ${PRE}MRB_TOP is not defined
   exit 1
 fi
 
@@ -206,16 +209,16 @@ COM="mrb uc"
 $COM
 echo "$COM" >> $DUNE_HISTORY
 
-echo $DUNE_LINE
+echo ${PRE}$DUNE_LINE
 exit 5
 
-echo $DUNE_LINE
-echo Set up to run
-if [ -n "$DUNE_VERBOSE" ]; then echo Running mrbslp; fi
+echo ${PRE}$DUNE_LINE
+echo ${PRE}Set up to run
+if [ -n "$DUNE_VERBOSE" ]; then echo ${PRE}Running mrbslp; fi
 mrbslp
 cd $THISDIR
 
-echo
-echo Generate an event: lar -n 10 -c prodsingle_lbne35t.fcl
-echo Event display: lar -c evd_lbne35t.fcl single35t_gen.root
-echo $DUNE_LINE
+echo ${PRE}
+echo ${PRE}Generate an event: lar -n 10 -c prodsingle_lbne35t.fcl
+echo ${PRE}Event display: lar -c evd_lbne35t.fcl single35t_gen.root
+echo ${PRE}$DUNE_LINE
