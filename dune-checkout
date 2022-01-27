@@ -10,7 +10,7 @@
 # DUNE setup.
 source $DUNE_INSDIR/duneinit.sh
 
-PRE="dune_checkout: "
+PRE="dune-checkout: "
 
 PKGFILE=$DUNE_DEVDIR/packages.txt
 if ! test -r $PKGFILE; then
@@ -191,7 +191,7 @@ if [ -n "$MRB_TOP" ]; then
   $COM
   echo "$COM" >> $DUNE_HISTORY
   if [ -r $LPRODDIR ]; then
-    if [ -n "$DUNE_VERBOSE" ]; then ${PRE}echo Removing $LPRODDIR; fi
+    if [ -n "$DUNE_VERBOSE" ]; then echo ${PRE}Removing $LPRODDIR; fi
     rm -rf $LPRODDIR
   fi
   if [ -n "$DUNE_VERBOSE" ]; then echo ${PRE}Running mrb newDev; fi
