@@ -72,3 +72,5 @@ dune> exit
 source &lt;install-area>/run.sh
 lar ...
 ```
+
+Those who prefer to interact directly with the build system can find instructions for dune developers in the [dunesw wiki](https://github.com/DUNE/dunesw/wiki).
