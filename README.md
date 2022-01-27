@@ -26,7 +26,13 @@ git clone ssh://git@github.com/dladams/dune-dev
 mkdir DEVDIR
 cd DEVDIR
 source PKGDIR/setup.sh
-# Edit config.sh and packages.txt
+# Edit config.sh and packages.txt. Typically DUNE_PROJECTVERSION
+# in the former will have to be changed to match the version of
+# DUNE_PROJECT in the packages being built. In the latter, list
+# those packages that are to be built. If not, already present in
+# workdir/srcs, those packages will be checked out with
+# "mrb gitCheckout" whcih will presumably take them from the
+# appropriate location in gitHub or Redmine.
 
 # To initialize in subsequent sessions
 source DEVDIR/dunesetup.sh
@@ -45,7 +51,7 @@ dune test
 
 # To clean (restart build and install), use one of the following.
 # The first runs "mrb z" and the second is fast and effective.
-dune  clean
+dune clean
 dune fastclean
 
 # To run something in a dedicated session.
