@@ -61,10 +61,12 @@ dune run lar -n 10 -c prodsingle_lbne35t.fcl
 source $DUNE_DEVDIR/run.sh
 lar -n 10 -c prodsingle_lbne35t.fcl
 
-# To run commands in a sub shell.
+# To run commands in a sub shell (recommended).
 dune shell
-lar -n 10 -c prodsingle_lbne35t.fcl
-exit
+dune> duneHelp
+dune> fcldump myFclFile.fcl 5
+dune> lar -n 10 -c prodsingle_lbne35t.fcl
+dune> exit
 
 # To use build from a clean area.
 source &lt;install-area>/run.sh
