@@ -9,7 +9,7 @@
 # See https://dune.bnl.gov/wiki/DUNE_LAr_Software_Releases.
 
 # Specify the base project to be used.
-# Allowed values: larsoft, dunetpc
+# Allowed values: larsoft, dunesw
 DUNE_PROJECT=dunesw
 
 # Specify the version for the base project.
