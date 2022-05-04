@@ -31,7 +31,7 @@ source PKGDIR/setup.sh
 # DUNE_PROJECT in the packages being built. In the latter, list
 # those packages that are to be built. If not, already present in
 # workdir/srcs, those packages will be checked out with
-# "mrb gitCheckout" whcih will presumably take them from the
+# "mrb gitCheckout" which will presumably take them from the
 # appropriate location in gitHub or Redmine.
 
 # To initialize in subsequent sessions
