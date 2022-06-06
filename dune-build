@@ -66,6 +66,12 @@ COM=mrbslp
 $COM 
 echo "$COM" >> $DUNE_HISTORY
 
+echo $DUNE_LINE
+echo install run script
+COM="$DUNE_INSDIR/dune runscript"
+$COM 
+echo "$COM" >> $DUNE_HISTORY
+
 COM="cd $THISDIR"
 $COM 
 echo "$COM" >> $DUNE_HISTORY
